@@ -1,6 +1,10 @@
 package ar.agenda.agendaVirtual.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -12,12 +16,17 @@ public class Contacto {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //Se utiliza el generation type identity por que estamos utilizando MySQL
     private Integer idcontacto;
 
+    @NotBlank
     private String nombre;
 
+    @PastOrPresent
     private LocalDate fechanac;
 
+    @NotBlank
+    @Size(max = 15)
     private String celular;
 
+    @Email
     private String email;
 
     private LocalDateTime fecharegistro;
