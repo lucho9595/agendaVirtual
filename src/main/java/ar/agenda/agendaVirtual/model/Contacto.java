@@ -16,17 +16,18 @@ public class Contacto {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //Se utiliza el generation type identity por que estamos utilizando MySQL
     private Integer idcontacto;
 
-    @NotBlank
+    @NotBlank(message = "Este campo no debe estar vacio.")
     private String nombre;
-
-    @PastOrPresent
+    
+   
+    @PastOrPresent(message = "La fecha no debe ser futura.")
     private LocalDate fechanac;
 
     @NotBlank
-    @Size(max = 15)
+    @Size(max = 15, message="Debe tener 15 caracteres como máximo.")
     private String celular;
 
-    @Email
+    @Email(message = "El formato de email es invalido.")
     private String email;
 
     private LocalDateTime fecharegistro;
