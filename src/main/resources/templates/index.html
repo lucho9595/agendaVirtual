@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body class="container">
-        <h1>Programo en Spring m@th3r F#ck3r!</h1>
+        <h1>Agenda Virtual 2023 - Contactos</h1>
 
         <div class="alert alert-success alert-dismissible mt-3" th:if="${msgExito ne null}"> <!-- el ne quiere decir que sea diferente a -->
             [[${msgExito}]] <!-- Esto seria como utilizar thymeleaf en linea, para no poner th:... -->
@@ -42,10 +42,16 @@
                     <td th:text="*{#temporals.format(fechanac, 'dd/MM/YYYY')}"></td>
                     <td th:text="*{celular}"></td>
                     <td th:text="*{email}"></td>
-                    <td th:text="*{#temporals.format(fecharegistro, 'dd/MM/YYYY hh:mm a')}"></td>
+                    <td th:text="*{#temporals.format(fecharegistro, 'dd-MM-YYYY hh:mm a')}"></td>
                     <td>
-                        <button class="btn btn-success"><i class="fa fa-pen"></i> </button>
-                        <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                        <div class="btn-group btn-group-sm">
+                            <a th:href="@{/} + ${contacto.idcontacto} + '/editar'" class="btn btn-success">
+                                <i class="fa fa-pen"></i> 
+                            </a>              
+                            <a href="" class="btn btn-danger">
+                                    <i class="fa fa-trash"></i>
+                            </a>
+                        </div>
                     </td>
                 </tr>
             </tbody>
