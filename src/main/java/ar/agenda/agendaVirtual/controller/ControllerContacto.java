@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -83,4 +84,16 @@ public class ControllerContacto {
         return "redirect:/";
     }
 
-}
+    ;
+    
+     @PostMapping("/{id}/eliminar")
+    String eliminar(@PathVariable Integer id,RedirectAttributes ra) {
+        Contacto contacto = contactoRepository.getById(id);
+        contactoRepository.delete(contacto);
+
+        ra.addFlashAttribute("msgExito", "El contacto " + contacto.getNombre() + " se ah eliminado correctamente");
+
+        return "redirect:/";
+    }
+;
+};
