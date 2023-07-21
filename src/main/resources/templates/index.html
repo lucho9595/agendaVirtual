@@ -36,7 +36,7 @@
                 un nombre el cual hace que luego en el td utilizando un * puedas traer todo lo que tiene el 
                 objeto que declarast. Como son varios, hay que poner ${}, que seria una forma de "mapeo" congela el objeto.
                 -->
-                <tr th:each="contacto : ${contactos}" th:object="${contacto}">
+                <tr th:each="contacto : ${contactoPage}" th:object="${contactoPage}">
                     <td th:text="*{idcontacto}"></td>
                     <td th:text="*{nombre}"></td>
                     <td th:text="*{#temporals.format(fechanac, 'dd/MM/YYYY')}"></td>
@@ -57,15 +57,23 @@
                 </tr>
             </tbody>
         </table>
-
+        <div>
+            <span sd:pagination-summary="compact">info</span>
+            <div class="btn-group pager-compact" sd:pagination="compact-pager">
+                <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
+                <a href="#" class="btn btn-default disabled"><span class="glyphicon glyphicon-chevron-left"></span></a>
+                <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-chevron-right"></span></a>
+            </div>
+        </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
         <script>
 
             function eliminarContacto(element){
-                console.log(element)
-                let ok = confirm('¿Estas seguro de eliminar este registtro?')
-                console.log('respuesta', ok)
-                element.nextElementSibling.submit();
+            console.log(element)
+            let ok = confirm('¿Estas seguro de eliminar este registtro?')
+            if(ok){
+            element.nextElementSibling.submit();
+            }
             }
         </script>
     </body>

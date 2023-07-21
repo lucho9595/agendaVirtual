@@ -1,6 +1,8 @@
 package ar.agenda.agendaVirtual.repository;
 
 import ar.agenda.agendaVirtual.model.Contacto;
+import java.awt.print.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,5 +11,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RepositoryContacto extends JpaRepository<Contacto, Integer>{
+
+    public Page<Contacto> findAll(Pageable pageable);
     
 }
