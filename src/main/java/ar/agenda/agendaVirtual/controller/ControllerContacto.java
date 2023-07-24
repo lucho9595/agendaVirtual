@@ -13,7 +13,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 //Lo que hace el controller es atender la solicitudes HTTP, INTERACTUA CON EL MODELO, RESPONDE A LA PAGINA PRINCIPAL
 @Controller
@@ -23,8 +25,13 @@ public class ControllerContacto {
     private RepositoryContacto contactoRepository;
 
     @GetMapping
-    public String index(Model model) {
-        List<Contacto> contactos = contactoRepository.findAll();
+    public String index(@RequestParam(required = false) String busqueda,Model model) {
+        List<Contacto> contactos;
+        if(busqueda != null && busqueda.trim().length() > 0){
+            contactos = contactoRepository.findByNombreContaining(busqueda);
+        }else{
+            contactos = contactoRepository.findAll();
+        }
         model.addAttribute("contactos", contactos);
         return "index";
     }

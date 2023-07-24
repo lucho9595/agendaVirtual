@@ -8,8 +8,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body class="container">
-        <h1>Agenda Virtual 2023 - Contactos</h1>
-
+        <div class="p-5 mt-3 mb-3 bg-light rounded shadow" style="background: url('/undraw.svg') no-repeat right; background-size: contain">
+            <div class="">
+                <h1 class="text-primary display-5">Bienvenido a MiAgenda</h1>
+                <p class="fw-bold mt-3">Con esta aplicación podrás gestionar tu agenda virtual</p>
+                <p>Consulta, crea, actualiza o elimina tus contactos de forma fácil y segura.</p>
+            </div>
+        </div>
+        <h3>Mis Contactos</h3>
         <div class="alert alert-success alert-dismissible mt-3" th:if="${msgExito ne null}"> <!-- el ne quiere decir que sea diferente a -->
             [[${msgExito}]] <!-- Esto seria como utilizar thymeleaf en linea, para no poner th:... -->
             <button class="btn-close" data-bs-dismiss="alert"></button>
@@ -18,7 +24,18 @@
         <div class='text-end'>
             <a href="/nuevo" class="btn btn-primary"> <i class="fa fa-plus"></i> Registrar Usuario</a>
         </div>
-
+        <form action="" autocomplete="off">
+            <div class="row">
+                <div class="col-lg-3 col-md-4">
+                    <div class="input-group mb-3">
+                        <button class="btn btn-outline-secondary" type="submit" id="button-addon1">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <input type="text" name="busqueda" class="form-control" placeholder="Buscar por nombre" th:value="${param.busqueda}"></input>
+                    </div>
+                </div>
+            </div>
+        </form>
         <table class="table table-hover">
             <thead>
                 <tr>
