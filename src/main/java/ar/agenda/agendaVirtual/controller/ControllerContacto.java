@@ -2,11 +2,10 @@ package ar.agenda.agendaVirtual.controller;
 
 import ar.agenda.agendaVirtual.model.Contacto;
 import ar.agenda.agendaVirtual.repository.RepositoryContacto;
-import java.awt.print.Pageable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,30 +19,26 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class ControllerContacto {
 
-private final RepositoryContacto contactoRepository;
-
     @Autowired
-    public ControllerContacto(RepositoryContacto contactoRepository) {
-        this.contactoRepository = contactoRepository;
-    }
+    private RepositoryContacto contactoRepository;
 
-    @GetMapping("/")
-    public String index(Pageable pageable, Model model) {
-        Page<Contacto> contactoPage = contactoRepository.findAll(pageable);
-        model.addAttribute("contactos", contactoPage);
+    @GetMapping
+    public String index(Model model) {
+        List<Contacto> contactos = contactoRepository.findAll();
+        model.addAttribute("contactos", contactos);
         return "index";
     }
-    
+
     @GetMapping("/nuevo")
     String nuevo(Model model) {
-        model.addAttribute("contacto", new Contacto());
+        model.addAttribute("contacto", new Contacto()); // Cambio aquí: Crea un nuevo objeto Contacto
         return "nuevo";
     }
 
     @PostMapping("/nuevo") //El BingindResult es como un contenedor de errores, por eso si o si para validaciones lo precisamos.
     String crear(@Validated Contacto contacto, BindingResult bindingResult, RedirectAttributes ra, Model model) { //Vamos a utilizar redirecattribute que lo que hace es poder mostrar mensajes como de error o de exito.
         if (bindingResult.hasErrors()) {
-            model.addAttribute("contacto", contacto);
+            model.addAttribute("contactos", contacto);
             return "nuevo";
         }
         contacto.setFecharegistro(LocalDateTime.now()); //esto lo que hace es traernos la fecha y hora actual y lo asigna a fecharegistro
@@ -54,47 +49,47 @@ private final RepositoryContacto contactoRepository;
 
     @GetMapping("/{id}/editar")
     String editar(@PathVariable Integer id, Model model) {
-        Contacto contacto = contactoRepository.getById(id);
+        Contacto contactos = contactoRepository.getById(id);
 
         // Formateamos la fecha de nacimiento como una cadena en formato "yyyy-MM-dd"
-        String fechaNacimientoFormatted = contacto.getFechanac().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String fechaNacimientoFormatted = contactos.getFechanac().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-        model.addAttribute("contacto", contacto);
+        model.addAttribute("contacto", contactos);
         model.addAttribute("fechaNacimientoFormatted", fechaNacimientoFormatted);
         return "nuevo";
     }
 
     @PostMapping("/{id}/editar") //aca editamos al contacto
     String actualizar(@PathVariable Integer id,
-            @Validated Contacto contacto,
+            @Validated Contacto contactos,
             BindingResult bindingResult,
             RedirectAttributes ra,
             Model model
     ) { //Vamos a utilizar redirecattribute que lo que hace es poder mostrar mensajes como de error o de exito.
         if (bindingResult.hasErrors()) {
-            model.addAttribute("contacto", contacto);
+            model.addAttribute("contactos", contactos);
             return "nuevo";
         }
 
         Contacto contactoFromDb = contactoRepository.getById(id);
-        contactoFromDb.setNombre(contacto.getNombre());
-        contactoFromDb.setCelular(contacto.getCelular());
-        contactoFromDb.setEmail(contacto.getEmail());
-        contactoFromDb.setFechanac(contacto.getFechanac());
+        contactoFromDb.setNombre(contactos.getNombre());
+        contactoFromDb.setCelular(contactos.getCelular());
+        contactoFromDb.setEmail(contactos.getEmail());
+        contactoFromDb.setFechanac(contactos.getFechanac());
 
         contactoRepository.save(contactoFromDb); //Save hace 2 cosas: crea y actualiza, se basa en el id, si el objeto tiene un id se actualiza, si no se crea el objeto.
-        ra.addFlashAttribute("msgExito", "El contacto " + contacto.getNombre() + " se ah actualizado correctamente");
+        ra.addFlashAttribute("msgExito", "El contacto " + contactos.getNombre() + " se ah actualizado correctamente");
         return "redirect:/";
     }
 
     ;
     
      @PostMapping("/{id}/eliminar")
-    String eliminar(@PathVariable Integer id,RedirectAttributes ra) {
-        Contacto contacto = contactoRepository.getById(id);
-        contactoRepository.delete(contacto);
+    String eliminar(@PathVariable Integer id, RedirectAttributes ra) {
+        Contacto contactos = contactoRepository.getById(id);
+        contactoRepository.delete(contactos);
 
-        ra.addFlashAttribute("msgExito", "El contacto " + contacto.getNombre() + " se ah eliminado correctamente");
+        ra.addFlashAttribute("msgExito", "El contacto " + contactos.getNombre() + " se ah eliminado correctamente");
 
         return "redirect:/";
     }

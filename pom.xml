@@ -5,9 +5,9 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.4</version>
+        <version>3.0.8</version>
         <relativePath/> <!-- lookup parent from repository -->
-    </parent>    
+    </parent>
     <groupId>ar.agenda</groupId>
     <artifactId>agendaVirtual</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -43,8 +43,8 @@
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
-            <version>8.0.33</version>
-        </dependency>        
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -60,11 +60,6 @@
             <artifactId>spring-boot</artifactId>
             <type>jar</type>
         </dependency>
-        <dependency>
-            <groupId>io.github.jpenren</groupId>
-            <artifactId>thymeleaf-spring-data-dialect</artifactId>
-            <version>3.6.0</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -79,6 +74,15 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+<plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <!-- Especifíca la clase principal de tu aplicación Spring Boot -->
+                    <mainClass>ar.agenda.agendaVirtual.AgendaVirtualApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
