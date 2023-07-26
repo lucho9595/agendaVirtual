@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>Index</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body class="container">
+        <div class="p-5 mt-3 mb-3 bg-light rounded shadow" style="background: url('/undraw.svg') no-repeat right; background-size: contain">
+            <div class="">
+                <h1 class="text-primary display-5">Bienvenido a MiAgenda</h1>
+                <p class="fw-bold mt-3">Con esta aplicación podrás gestionar tu agenda virtual</p>
+                <p>Consulta, crea, actualiza o elimina tus contactos de forma fácil y segura.</p>
+            </div>
+        </div>
+        <h3>Mis Contactos</h3>
+        <div class="alert alert-success alert-dismissible mt-3" th:if="${msgExito ne null}"> <!-- el ne quiere decir que sea diferente a -->
+            [[${msgExito}]] <!-- Esto seria como utilizar thymeleaf en linea, para no poner th:... -->
+            <button class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div class='text-end'>
+            <a href="/nuevo" class="btn btn-primary"> <i class="fa fa-plus"></i> Registrar Usuario</a>
+        </div>
+        <form action="" autocomplete="off">
+            <div class="row">
+                <div class="col-lg-3 col-md-4">
+                    <div class="input-group mb-3">
+                        <button class="btn btn-outline-secondary" type="submit" id="button-addon1">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <input type="text" name="busqueda" class="form-control" placeholder="Buscar por nombre" th:value="${param.busqueda}"></input>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Fecha nacimiento</th>
+                    <th>Celular</th>
+                    <th>Email</th>
+                    <th>Fecha registro</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--vamos a implementar una herramienta de thymeleaf que es th:object a este le declaras
+                un nombre el cual hace que luego en el td utilizando un * puedas traer todo lo que tiene el 
+                objeto que declarast. Como son varios, hay que poner ${}, que seria una forma de "mapeo" congela el objeto.
+                -->
+                <tr th:each="contacto : ${contactos}">
+                    <td th:text="${contacto.idcontacto}"></td>
+                    <td th:text="${contacto.nombre}"></td>
+                    <td th:text="${#temporals.format(contacto.fechanac, 'dd/MM/YYYY')}"></td>
+                    <td th:text="${contacto.celular}"></td>
+                    <td th:text="${contacto.email}"></td>
+                    <td th:text="${#temporals.format(contacto.fecharegistro, 'dd-MM-YYYY hh:mm a')}"></td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <a th:href="@{/} + ${contacto.idcontacto} + '/editar'" class="btn btn-success">
+                                <i class="fa fa-pen"></i> 
+                            </a>              
+                            <button class="btn btn-danger" onclick='eliminarContacto(this)'> <!-- paso this en la funcion para que hage referencia a esta instancia, y en la logica de javascript vamos a pasarlo al siguiente elemento para que haga lo que tiene echo form -->
+                                <i class="fa fa-trash"></i>
+                            </button>
+                            <form th:action="@{/} + ${contacto.idcontacto} + '/eliminar'" method="post"></form>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+        <script>
+
+                                function eliminarContacto(element) {
+                                    console.log(element)
+                                    let ok = confirm('¿Estas seguro de eliminar este registtro?')
+                                    if (ok) {
+                                        element.nextElementSibling.submit();
+                                    }
+                                }
+        </script>
+    </body>
+</html>

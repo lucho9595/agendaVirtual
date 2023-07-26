@@ -1,0 +1,4 @@
+ar\agenda\agendaVirtual\controller\ControllerContacto.class
+ar\agenda\agendaVirtual\repository\RepositoryContacto.class
+ar\agenda\agendaVirtual\model\Contacto.class
+ar\agenda\agendaVirtual\AgendaVirtualApplication.class
