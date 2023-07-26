@@ -1,33 +1,34 @@
 package ar.agenda.agendaVirtual.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.PastOrPresent;
-import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id; // Importa la anotación @Id de javax.persistence
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Contacto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //Se utiliza el generation type identity por que estamos utilizando MySQL
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Se utiliza el generation type identity porque estás utilizando MySQL
     private Integer idcontacto;
 
-    @NotBlank(message = "Este campo no debe estar vacio.")
+    @NotBlank(message = "Este campo no debe estar vacío.")
     private String nombre;
     
-   
     @PastOrPresent(message = "La fecha no debe ser futura.")
     private LocalDate fechanac;
 
     @NotBlank
-    @Size(max = 15, message="Debe tener 15 caracteres como máximo.")
+    @Size(max = 15, message = "Debe tener 15 caracteres como máximo.")
     private String celular;
 
-    @Email(message = "El formato de email es invalido.")
+    @Email(message = "El formato de email es inválido.")
     private String email;
 
     private LocalDateTime fecharegistro;

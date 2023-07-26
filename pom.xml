@@ -43,8 +43,9 @@
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
+            <version>8.0.33</version> <!-- Agrega la versión del conector MySQL -->
             <scope>runtime</scope>
-        </dependency>
+        </dependency>        
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
